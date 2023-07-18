@@ -46,6 +46,6 @@ end
 # 引用時のためのフォーマットに変換
 authors = info[:author].map {|author| "#{author[1]}, #{author[0][0]}."}.first(3)
 authors_str = authors.count > 1 ? "#{authors.first(authors.count - 1).join(", ")} and #{authors[authors.count - 1]}" : authors[0]
-ref_format = "#{authors_str}: #{info[:title]}, #{info[:journal]}, Vol.#{info[:volume]}, No.#{info[:issue]}, pp.#{info[:page]} (#{info[:year]})"
+ref_format = "#{authors_str}: #{info[:title]}, #{info[:journal]}, Vol.#{info[:volume]}, No.#{info[:issue]}, pp.#{info[:page]} (#{info[:year]})."
 puts "ref_format:"
 puts ref_format
