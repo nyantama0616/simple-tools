@@ -1,2 +1,2 @@
 #!/bin/bash
-ruby ~/Desktop/simple-tools/paper-find/main.rb $1
+ruby ~/Desktop/simple-tools/paper-find/main.rb $@
