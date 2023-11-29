@@ -1,40 +1,19 @@
 require "net/http"
 require "uri"
 require "json"
+require_relative "./Paper"
 
 module PaperFind
 	class PaperFind
-		attr_reader :doi, :result
+		attr_reader :doi, :paper_info
 		def initialize(doi)
-			@doi = doi
-			fetch
-		end
-
-		def authors
-			@result && @result[:author].map {|author| "#{author[0]} #{author[1]}"}
-		end
-
-		def authors_abbr
-			@result && @result[:author].map {|author| "#{author[1]}, #{author[0][0]}."}
-		end
-
-		def cited_format
-			authors = authors_abbr.first(3)
-			authors_str = authors.count > 1 ? "#{authors.first(authors.count - 1).join(", ")} and #{authors[authors.count - 1]}" : authors[0]
-			ref_format = "#{authors_str}: #{@result[:title]}, #{@result[:journal]}, Vol.#{@result[:volume]}, No.#{@result[:issue]}, pp.#{@result[:page]} (#{@result[:year]})."
-			ref_format
-		end
-
-		def puts_result
-			@result.each do |key, value|
-				puts "#{key}: #{value}"
-			end
+			fetch doi
 		end
 
 		private
 
-		def fetch
-			url = URI.parse("https://api.crossref.org/works/#{@doi}")
+		def fetch(doi)
+			url = URI.parse("https://api.crossref.org/works/#{doi}")
 			res = Net::HTTP.get_response(url)
 
 			#論文が見つからなかったら例外を投げる
@@ -44,19 +23,21 @@ module PaperFind
 
 			json = JSON.parse(res.body)
 
-			@result = {}
+			result = {}
 
 			message = json["message"]
-			@result[:title] = message["title"][0]
-			@result[:doi] = message["DOI"]
-			@result[:journal] = message["short-container-title"][0]
-			@result[:author] = message["author"].map {|author| [author["given"], author["family"]]}
-			@result[:year] = message["published"]["date-parts"][0][0]
-			@result[:url] = message["URL"]
-			@result[:volume] = message["volume"]
-			@result[:issue] = message["issue"]
-			@result[:page] = message["page"]
-			@result[:times_cited] = message["is-referenced-by-count"]
+			result[:title] = message["title"][0]
+			result[:doi] = message["DOI"]
+			result[:journal] = message["short-container-title"][0]
+			result[:authors] = message["author"].map {|author| [author["given"], author["family"]]}
+			result[:year] = message["published"]["date-parts"][0][0]
+			result[:url] = message["URL"]
+			result[:volume] = message["volume"]
+			result[:issue] = message["issue"]
+			result[:pages] = message["page"]
+			result[:times_cited] = message["is-referenced-by-count"]
+
+			@paper_info = Paper.new(**result)
 		end
 	end
 end

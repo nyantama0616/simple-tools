@@ -3,7 +3,7 @@ require_relative "./PaperFind"
 describe "Test Paper Find" do
   def test_cited_format(doi, expected)
     paper_find = PaperFind::PaperFind.new(doi)
-    expect(paper_find.cited_format).to eq expected
+    expect(paper_find.paper_info.cited_format).to eq expected
   end
 
   it "引用時用のフォーマットは意図した通りになってるか１" do

@@ -4,7 +4,7 @@
 example:
 	ruby main.rb 10.1002/dev.20059
 	ruby main.rb 10.1002/dev.20059 --cite #引用時用のフォーマットで出力
-	
+
 =end
 
 require_relative "./PaperFind"
@@ -16,8 +16,8 @@ module PaperFind
 	paper_find = PaperFind.new(args[:origin][0])
 	
 	if (args[:cite])
-		puts paper_find.cited_format
+		puts paper_find.paper_info.cited_format
 	else
-		paper_find.puts_result
+		puts paper_find.paper_info.to_s
 	end
 end
