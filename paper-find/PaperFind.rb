@@ -28,7 +28,7 @@ module PaperFind
 			message = json["message"]
 			result[:title] = message["title"][0]
 			result[:doi] = message["DOI"]
-			result[:journal] = message["short-container-title"][0]
+			result[:journal] = message["short-container-title"][0] || "No journal"
 			result[:authors] = message["author"].map {|author| [author["given"], author["family"]]}
 			result[:year] = message["published"]["date-parts"][0][0]
 			result[:url] = message["URL"]
