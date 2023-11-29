@@ -1,3 +1,5 @@
+require "notion-ruby-client"
+require_relative "./Config"
 require_relative "../../util/Logger"
 
 module SavePaper
@@ -9,7 +11,6 @@ module SavePaper
 
     def initialize
       @client = Notion::Client.new
-      @database = @client.database(database_id: Config::DATABASE_ID) # 今のところ多分いらない
     end
 
     def save(paper)
@@ -22,7 +23,7 @@ module SavePaper
 
       @client.create_page(
         parent: {
-          database_id: @database.id
+          database_id: Config::DATABASE_ID
         },
         properties: properties,
         children: template
@@ -119,7 +120,7 @@ module SavePaper
       }
 
       query = @client.database_query(
-        database_id: @database.id,
+        database_id: Config::DATABASE_ID,
         sorts: sorts,
         filter: filter
       )
