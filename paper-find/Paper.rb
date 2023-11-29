@@ -37,8 +37,6 @@ module PaperFind
       EOS
     end
 
-    private
-
     def authors_strs
 			@authors.map {|author| "#{author[0]} #{author[1]}"}
 		end
