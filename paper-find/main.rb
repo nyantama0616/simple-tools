@@ -9,6 +9,7 @@ example:
 
 require_relative "./PaperFind"
 require_relative "./ArgManager"
+require_relative "../notions/save-paper/PaperSaver"
 
 module PaperFind
 	args = ArgManager.arranged_args(ARGV)
@@ -19,5 +20,10 @@ module PaperFind
 		puts paper_find.paper_info.cited_format
 	else
 		puts paper_find.paper_info.to_s
+	end
+
+	if args[:save]
+		paper_saver = SavePaper::PaperSaver.new
+		paper_saver.save(paper_find.paper_info)
 	end
 end

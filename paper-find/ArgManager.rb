@@ -5,7 +5,8 @@ module PaperFind
     def self.arranged_args(argv)
       args = {
         origin: argv.clone,
-        cite: false
+        cite: false,
+        save: false
       }
       
       while true
@@ -30,10 +31,13 @@ module PaperFind
     def self.handle_arg_option(args, i)
         case args[:origin][i]
         when "--cite"
-            args[:origin].delete_at(i)
-            args[:cite] = true
+          args[:origin].delete_at(i)
+          args[:cite] = true
+        when "--save"
+          args[:origin].delete_at(i)
+          args[:save] = true
         else
-            raise "Invalid option: #{args[:origin][i]}"
+          raise "Invalid option: #{args[:origin][i]}"
         end
     end
   end
