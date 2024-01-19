@@ -1,0 +1,10 @@
+#!/bin/bash
+output="/Users/x/Desktop/eps-output"
+mkdir -p "$output"
+
+for file in "$@"
+do
+    baseName=$(basename "$file" .png) #TODO: pngしか無理
+    # echo "convert $file $output/$baseName.eps"
+    convert "$file" "$output/$baseName.eps"
+done
